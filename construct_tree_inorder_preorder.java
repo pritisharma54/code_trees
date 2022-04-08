@@ -1,49 +1,47 @@
 /**
- * Definition for binary tree
- * class TreeNode {
+ * Definition for a binary tree node.
+ * public class TreeNode {
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode(int x) {
- *      val = x;
- *      left=null;
- *      right=null;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
  *     }
  * }
  */
-public class Solution {
+class Solution {
+    HashMap<Integer,Integer> mp=new HashMap<>();
+    int preindex=0;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+     
+        for(int i=0;i<inorder.length;i++){
+            mp.put(inorder[i],i);
+        }
+        
+        return build(preorder,inorder,0,inorder.length-1);
+    }
     
-    static int pIndex=0;
-	public TreeNode buildTree(ArrayList<Integer> preorder, ArrayList<Integer> inorder) {
-	    
-	    int len = inorder.size();
-	    pIndex = 0;
-	    return createTree(0, len-1, inorder, preorder);
-	}
-	
-	public TreeNode createTree(int start, int end, ArrayList<Integer> inorder, ArrayList<Integer> preorder){
-	    
-	    if(start > end)
-	        return null;
-	        
-	    TreeNode node = new TreeNode(preorder.get(pIndex++));
-	    if(start == end)
-	        return node;
-	        
-	    int inIndex = search(node.val, inorder, start, end);
-	    
-	    node.left = createTree(start, inIndex-1, inorder, preorder);
-	    node.right = createTree(inIndex+1, end, inorder, preorder);
-	    
-	    return node;
-	}
-	
-	public int search(int num, ArrayList<Integer> inorder, int start, int end){
-	    int i;
-	    for(i = start; i< end; i++){
-	        if(inorder.get(i) == num)
-	            return i;
-	    }
-	    return i;
-	}
+    public  TreeNode build(int[] preorder, int[] inorder,int start,int end){
+       
+        if(start>end) return null;
+        
+        TreeNode root= new TreeNode(preorder[preindex++]);
+        
+         if(root==null)
+            return null;
+        
+        if(start==end) return root;
+        
+        int index=mp.get(root.val);
+        
+        root.left=build(preorder,inorder,start,index-1);
+        root.right=build(preorder,inorder,index+1,end);
+        
+        return root;
+    }
+    
 }
