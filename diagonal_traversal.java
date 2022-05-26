@@ -17,31 +17,28 @@ https://www.codingninjas.com/codestudio/problems/diagonal-traversal-of-a-binary-
     };
 
 ************************************************************/
+
 import java.util.*;
 public class Solution {
     public static ArrayList<Integer> diagonalTraversal(TreeNode<Integer> root) {
         // Write your code here.
-		ArrayList<Integer> ans= new ArrayList<>();
+		
 		Queue<TreeNode<Integer>> que= new LinkedList<>();
+        ArrayList<Integer> ans= new ArrayList<>();
 		que.add(root);
 		
 		while(que.size()!=0){
-			ArrayList<Integer> temp= new ArrayList<>();
 			int size=que.size();
 			while(size-->0){
 				TreeNode<Integer> rn= que.poll();
 					while(rn!=null){
-						temp.add(rn.data);
+						ans.add(rn.data);
 						if(rn.left!=null)
 							que.add(rn.left);
 						rn=rn.right;
 				    }	
 			}
-			
-			for(Integer val:temp){
-				ans.add(val);
-			}
-	
+
 		}
 		
 		return ans;
