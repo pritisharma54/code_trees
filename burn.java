@@ -1,3 +1,62 @@
+
+import java.util.HashMap;
+import java.util.*;
+
+
+public class Solution
+{
+    static int maxTime;
+     public static void burnTreeUtil(BinaryTreeNode<Integer> root, BinaryTreeNode<Integer> blocker,int time){
+         if(root==null||root==blocker) return;
+             
+         maxTime=Math.max(maxTime,time);
+         
+         burnTreeUtil(root.left,blocker,time+1);
+         burnTreeUtil(root.right,blocker,time+1);
+     }
+    
+     public static int burnTree(BinaryTreeNode<Integer> root, int target){
+         
+         if(root==null) return -1;
+         if(root.data==target){
+             burnTreeUtil(root,null,0);
+             return 1;
+             
+         }
+         int leftime=burnTree(root.left,target);
+         if(leftime!=-1){
+              burnTreeUtil(root,root.left,leftime);
+              return leftime+1;
+         }
+         
+         int rightime=burnTree(root.right,target);
+         if(rightime!=-1){
+              burnTreeUtil(root,root.right,rightime);
+              return rightime+1;
+         }
+         
+         return -1;
+    
+     }
+  
+    public static int timeToBurnTree(BinaryTreeNode<Integer> root, int target)
+    {
+       maxTime=0;
+       burnTree(root,target);
+       return maxTime;
+  
+    }
+}
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+
+
 **
  * Definition for binary tree
  * class TreeNode {
